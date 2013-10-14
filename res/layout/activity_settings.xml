@@ -9,8 +9,48 @@
     tools:context=".SettingsActivity" >
 
     <TextView
+        android:id="@+id/tvSearchOptions"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/hello_world" />
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:text="@string/advanced_search_options" />
+
+    <TextView
+        android:id="@+id/tvImageSize"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/tvSearchOptions"
+        android:layout_below="@+id/tvSearchOptions"
+        android:layout_marginTop="20dp"
+        android:text="@string/image_size" />
+
+    <Spinner
+        android:id="@+id/spinnerImageSize"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/tvImageSize"
+        android:layout_alignParentRight="true"
+        android:layout_toRightOf="@+id/tvImageSize"
+        android:entries="@array/sizes_array" />
+
+    <TextView
+        android:id="@+id/tvColorFilter"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/tvImageSize"
+        android:layout_below="@+id/tvImageSize"
+        android:layout_marginTop="20dp"
+        android:text="@string/color_filter" />
+
+    <Spinner
+        android:id="@+id/spinnerColorFilter"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/tvColorFilter"
+        android:layout_alignParentRight="true"
+        android:layout_toRightOf="@+id/tvColorFilter"
+        android:layout_below="@+id/spinnerImageSize"
+        android:entries="@array/colors_array" />
 
 </RelativeLayout>
