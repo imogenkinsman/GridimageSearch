@@ -7,12 +7,15 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
@@ -65,6 +68,9 @@ public class SearchActivity extends Activity {
     }
     
     public void onImageSearch(View v) {
+    	InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+    	imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
+    	
     	String query = etQuery.getText().toString();
     	Toast.makeText(this, "Searching for " + query, Toast.LENGTH_SHORT).show();
     	AsyncHttpClient client = new AsyncHttpClient();
@@ -77,6 +83,7 @@ public class SearchActivity extends Activity {
 					imageJsonResults = response.getJSONObject("responseData").getJSONArray("results");
 					imageResults.clear();
 					imageAdapter.addAll(ImageResult.fromJSONArray(imageJsonResults));
+					// TODO: remove logger after done working on this project
 					Log.d("DEBUG", imageResults.toString());
 				} catch (JSONException e) {
 					e.printStackTrace();
@@ -85,4 +92,16 @@ public class SearchActivity extends Activity {
     	});
     }
     
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+			case R.id.action_settings:
+				// create new intent, and return options values when done
+				Intent i = new Intent(getApplicationContext(), SettingsActivity.class);
+				startActivity(i);
+				//something
+			default:
+				return super.onOptionsItemSelected(item);
+		}
+	}
 }
