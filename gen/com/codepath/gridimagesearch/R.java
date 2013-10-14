@@ -10,7 +10,8 @@ package com.codepath.gridimagesearch;
 public final class R {
     public static final class array {
         public static final int colors_array=0x7f040000;
-        public static final int sizes_array=0x7f040001;
+        public static final int image_types_array=0x7f040001;
+        public static final int sizes_array=0x7f040002;
     }
     public static final class attr {
     }
@@ -28,16 +29,21 @@ public final class R {
         public static final int ic_launcher=0x7f020000;
     }
     public static final class id {
-        public static final int action_settings=0x7f090009;
+        public static final int action_settings=0x7f09000e;
+        public static final int btnSave=0x7f09000d;
         public static final int btnSearch=0x7f090002;
         public static final int etQuery=0x7f090001;
+        public static final int etSiteFilter=0x7f09000c;
         public static final int gvResults=0x7f090003;
         public static final int ivResult=0x7f090000;
         public static final int spinnerColorFilter=0x7f090008;
         public static final int spinnerImageSize=0x7f090006;
+        public static final int spinnerImageType=0x7f09000a;
         public static final int tvColorFilter=0x7f090007;
         public static final int tvImageSize=0x7f090005;
+        public static final int tvImageType=0x7f090009;
         public static final int tvSearchOptions=0x7f090004;
+        public static final int tvSiteFilter=0x7f09000b;
     }
     public static final class layout {
         public static final int activity_image_display=0x7f030000;
@@ -56,8 +62,11 @@ public final class R {
         public static final int app_name=0x7f060000;
         public static final int color_filter=0x7f060007;
         public static final int image_size=0x7f060006;
+        public static final int image_type=0x7f060008;
         public static final int query_hint=0x7f060003;
+        public static final int save=0x7f06000a;
         public static final int search_button=0x7f060002;
+        public static final int site_filter=0x7f060009;
         public static final int title_activity_settings=0x7f060004;
     }
     public static final class style {

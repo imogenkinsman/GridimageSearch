@@ -32,6 +32,7 @@ public class SearchActivity extends Activity {
 	Button btnSearch;
 	ArrayList<ImageResult> imageResults = new ArrayList<ImageResult>();
 	ImageResultArrayAdapter imageAdapter;
+	static final int UPDATE_OPTIONS_REQUEST = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -98,8 +99,7 @@ public class SearchActivity extends Activity {
 			case R.id.action_settings:
 				// create new intent, and return options values when done
 				Intent i = new Intent(getApplicationContext(), SettingsActivity.class);
-				startActivity(i);
-				//something
+				startActivityForResult(i, UPDATE_OPTIONS_REQUEST);
 			default:
 				return super.onOptionsItemSelected(item);
 		}

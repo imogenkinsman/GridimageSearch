@@ -2,6 +2,7 @@
 <!-- TODO: This is stupid, use a color picker instead -->
 <resources>
     <string-array name="colors_array">
+        <item>any</item>
         <item>black</item>
         <item>blue</item>
         <item>brown</item>
