@@ -33,6 +33,7 @@ public class SearchActivity extends Activity {
 	ArrayList<ImageResult> imageResults = new ArrayList<ImageResult>();
 	ImageResultArrayAdapter imageAdapter;
 	static final int UPDATE_OPTIONS_REQUEST = 0;
+	OptionSet options;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -102,6 +103,13 @@ public class SearchActivity extends Activity {
 				startActivityForResult(i, UPDATE_OPTIONS_REQUEST);
 			default:
 				return super.onOptionsItemSelected(item);
+		}
+	}
+	
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		if (requestCode == UPDATE_OPTIONS_REQUEST && resultCode == RESULT_OK) {
+			options = (OptionSet) data.getExtras().getSerializable("options");
 		}
 	}
 }

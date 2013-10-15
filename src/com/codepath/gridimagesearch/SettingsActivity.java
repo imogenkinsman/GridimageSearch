@@ -37,8 +37,16 @@ public class SettingsActivity extends Activity {
 	
 	public void onSave(View v) {
 		//prepare data intent to send back to SearchActivity
+		String size = spinnerImageSize.getSelectedItem().toString();
+		String color = spinnerColorFilter.getSelectedItem().toString();
+		String type = spinnerImageType.getSelectedItem().toString();
+		String site = etSiteFilter.getText().toString();
+		OptionSet options = new OptionSet(size, color, type, site);
+		
 		Intent data = new Intent();
-		this.finish();
+		data.putExtra("options", options);
+		setResult(RESULT_OK, data);
+		finish();
 	}
 
 }
