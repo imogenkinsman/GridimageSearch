@@ -110,7 +110,7 @@ public class SearchActivity extends Activity {
     		optionsQuery += "&imgsz=" + options.getSize();
     		optionsQuery += "&imgcolor=" + options.getColor();
     		optionsQuery += "&imgtype=" + options.getType();
-    		optionsQuery += "&as_sitesearch=" + options.getSize();
+    		optionsQuery += "&as_sitesearch=" + options.getFilter();
     	}
     	
     	client.get("https://ajax.googleapis.com/ajax/services/search/images?rsz=8&" + "start=" + 0 + "&v=1.0&q=" + Uri.encode(query) + optionsQuery,
@@ -135,8 +135,8 @@ public class SearchActivity extends Activity {
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 			case R.id.action_settings:
-				// create new intent, and return options values when done
 				Intent i = new Intent(getApplicationContext(), SettingsActivity.class);
+				i.putExtra("options", options);
 				startActivityForResult(i, UPDATE_OPTIONS_REQUEST);
 			default:
 				return super.onOptionsItemSelected(item);
