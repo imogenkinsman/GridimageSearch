@@ -121,7 +121,7 @@ public class SearchActivity extends Activity {
     		imageStart = 0;
         	Toast.makeText(this, "Searching for " + query, Toast.LENGTH_SHORT).show();
     	} else {
-    		imageStart += 15;
+    		imageStart += 8;
     	}
     	
     	String optionsQuery = "";
@@ -132,7 +132,7 @@ public class SearchActivity extends Activity {
     		optionsQuery += "&as_sitesearch=" + options.getFilter();
     	}
     	
-    	client.get("https://ajax.googleapis.com/ajax/services/search/images?rsz=15&" + "start=" + imageStart + "&v=1.0&q=" + Uri.encode(query) + optionsQuery,
+    	client.get("https://ajax.googleapis.com/ajax/services/search/images?rsz=8&" + "start=" + imageStart + "&v=1.0&q=" + Uri.encode(query) + optionsQuery,
     			new JsonHttpResponseHandler() {
 			@Override
 			public void onSuccess(JSONObject response) {
