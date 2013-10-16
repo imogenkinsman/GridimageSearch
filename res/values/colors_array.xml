@@ -2,11 +2,18 @@
 <!-- TODO: This is stupid, use a color picker instead -->
 <resources>
     <string-array name="colors_array">
-        <item>any</item>
+        <item></item>
         <item>black</item>
         <item>blue</item>
         <item>brown</item>
         <item>gray</item>
         <item>green</item>
+        <item>orange</item>
+        <item>pink</item>
+        <item>purple</item>
+        <item>red</item>
+        <item>teal</item>
+        <item>white</item>
+        <item>yellow</item>
     </string-array>
 </resources>

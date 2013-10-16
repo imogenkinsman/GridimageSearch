@@ -11,6 +11,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -33,7 +35,7 @@ public class SearchActivity extends Activity {
 	ArrayList<ImageResult> imageResults = new ArrayList<ImageResult>();
 	ImageResultArrayAdapter imageAdapter;
 	static final int UPDATE_OPTIONS_REQUEST = 0;
-	OptionSet options;
+	OptionSet options = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,18 +44,8 @@ public class SearchActivity extends Activity {
         setupViews();
         imageAdapter = new ImageResultArrayAdapter(this, imageResults);
         gvResults.setAdapter(imageAdapter);
-        gvResults.setOnItemClickListener(new OnItemClickListener() {
-
-			@Override
-			public void onItemClick(AdapterView<?> adapter, View parent, int position,
-					long rowId) {
-				Intent i = new Intent(getApplicationContext(), ImageDisplayActivity.class);
-				ImageResult imageResult = imageResults.get(position);
-				i.putExtra("result", imageResult);
-				startActivity(i);
-			}
-        	
-		});
+        btnSearch.setEnabled(false);
+        addListeners();
     }
 
     @Override
@@ -69,6 +61,42 @@ public class SearchActivity extends Activity {
         btnSearch = (Button) findViewById(R.id.btnSearch);
     }
     
+    private void addListeners() {
+        etQuery.addTextChangedListener(new TextWatcher() {
+			
+			@Override
+			public void onTextChanged(CharSequence s, int start, int before, int count) {				
+			}
+			
+			@Override
+			public void beforeTextChanged(CharSequence s, int start, int count,
+					int after) {				
+			}
+			
+			@Override
+			public void afterTextChanged(Editable s) {
+				if (etQuery.getText().toString().trim().isEmpty()) {
+					btnSearch.setEnabled(false);
+				} else {
+					btnSearch.setEnabled(true);
+				}
+			}
+		});
+        
+        gvResults.setOnItemClickListener(new OnItemClickListener() {
+
+			@Override
+			public void onItemClick(AdapterView<?> adapter, View parent, int position,
+					long rowId) {
+				Intent i = new Intent(getApplicationContext(), ImageDisplayActivity.class);
+				ImageResult imageResult = imageResults.get(position);
+				i.putExtra("result", imageResult);
+				startActivity(i);
+			}
+        	
+		});
+    }
+    
     public void onImageSearch(View v) {
     	InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
     	imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
@@ -76,7 +104,16 @@ public class SearchActivity extends Activity {
     	String query = etQuery.getText().toString();
     	Toast.makeText(this, "Searching for " + query, Toast.LENGTH_SHORT).show();
     	AsyncHttpClient client = new AsyncHttpClient();
-    	client.get("https://ajax.googleapis.com/ajax/services/search/images?rsz=8&" + "start=" + 0 + "&v=1.0&q=" + Uri.encode(query),
+    	
+    	String optionsQuery = "";
+    	if (options != null) {
+    		optionsQuery += "&imgsz=" + options.getSize();
+    		optionsQuery += "&imgcolor=" + options.getColor();
+    		optionsQuery += "&imgtype=" + options.getType();
+    		optionsQuery += "&as_sitesearch=" + options.getSize();
+    	}
+    	
+    	client.get("https://ajax.googleapis.com/ajax/services/search/images?rsz=8&" + "start=" + 0 + "&v=1.0&q=" + Uri.encode(query) + optionsQuery,
     			new JsonHttpResponseHandler() {
 			@Override
 			public void onSuccess(JSONObject response) {
