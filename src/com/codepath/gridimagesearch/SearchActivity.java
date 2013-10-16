@@ -36,6 +36,7 @@ public class SearchActivity extends Activity {
 	ImageResultArrayAdapter imageAdapter;
 	static final int UPDATE_OPTIONS_REQUEST = 0;
 	OptionSet options = null;
+	int currentPage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -95,6 +96,44 @@ public class SearchActivity extends Activity {
 			}
         	
 		});
+        
+        gvResults.setOnScrollListener(new EndlessScrollListener() {
+			
+			@Override
+			public void onLoadMore(int page, int totalItemsCount) {
+				String query = etQuery.getText().toString();
+				currentPage += 8;
+		    	Toast.makeText(getApplicationContext(), "Searching for " + query, Toast.LENGTH_SHORT).show();
+		    	AsyncHttpClient client = new AsyncHttpClient();
+		    	
+		    	String optionsQuery = "";
+		    	if (options != null) {
+		    		optionsQuery += "&imgsz=" + options.getSize();
+		    		optionsQuery += "&imgcolor=" + options.getColor();
+		    		optionsQuery += "&imgtype=" + options.getType();
+		    		optionsQuery += "&as_sitesearch=" + options.getFilter();
+		    	}
+		    	
+	    		Log.d("DEBUG", "https://ajax.googleapis.com/ajax/services/search/images?rsz=8&" + "start=" + currentPage + "&v=1.0&q=" + Uri.encode(query) + optionsQuery); 
+		    	
+		    	client.get("https://ajax.googleapis.com/ajax/services/search/images?rsz=8&" + "start=" + currentPage + "&v=1.0&q=" + Uri.encode(query) + optionsQuery,
+		    			new JsonHttpResponseHandler() {
+		    		
+					@Override
+					public void onSuccess(JSONObject response) {
+						JSONArray imageJsonResults = null;
+						try {
+							imageJsonResults = response.getJSONObject("responseData").getJSONArray("results");
+							imageAdapter.addAll(ImageResult.fromJSONArray(imageJsonResults));
+							// TODO: remove logger after done working on this project
+							//Log.d("DEBUG", imageResults.toString());
+						} catch (JSONException e) {
+							e.printStackTrace();
+						}
+					}
+		    	});	
+			}
+		});
     }
     
     public void onImageSearch(View v) {
@@ -102,6 +141,7 @@ public class SearchActivity extends Activity {
     	imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
     	
     	String query = etQuery.getText().toString();
+    	currentPage = 0;
     	Toast.makeText(this, "Searching for " + query, Toast.LENGTH_SHORT).show();
     	AsyncHttpClient client = new AsyncHttpClient();
     	
@@ -113,7 +153,7 @@ public class SearchActivity extends Activity {
     		optionsQuery += "&as_sitesearch=" + options.getFilter();
     	}
     	
-    	client.get("https://ajax.googleapis.com/ajax/services/search/images?rsz=8&" + "start=" + 0 + "&v=1.0&q=" + Uri.encode(query) + optionsQuery,
+    	client.get("https://ajax.googleapis.com/ajax/services/search/images?rsz=8&" + "start=" + currentPage + "&v=1.0&q=" + Uri.encode(query) + optionsQuery,
     			new JsonHttpResponseHandler() {
 			@Override
 			public void onSuccess(JSONObject response) {
@@ -123,7 +163,7 @@ public class SearchActivity extends Activity {
 					imageResults.clear();
 					imageAdapter.addAll(ImageResult.fromJSONArray(imageJsonResults));
 					// TODO: remove logger after done working on this project
-					Log.d("DEBUG", imageResults.toString());
+					//Log.d("DEBUG", imageResults.toString());
 				} catch (JSONException e) {
 					e.printStackTrace();
 				}
